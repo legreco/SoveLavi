@@ -1,0 +1,210 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="SOVELAVIDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tbl_LAYER">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="fileName" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="title" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="description" Type="varchar" MaxLength="512" />
+          <Property Name="dateAdded" Type="datetime" Nullable="false" />
+          <Property Name="categoryId" Type="int" Nullable="false" />
+          <Property Name="layerTypeId" Type="int" Nullable="false" />
+          <Property Name="validFrom" Type="date" Nullable="false" />
+          <Property Name="validTo" Type="date" Nullable="false" />
+          <Property Name="imageName" Type="varchar" MaxLength="128" />
+        </EntityType>
+        <EntityType Name="tbl_LAYER_CATEGORY">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="75" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_LAYER_TYPE">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_tbl_LAYER_tbl_LAYER_CATEGORY">
+          <End Role="tbl_LAYER_CATEGORY" Type="Self.tbl_LAYER_CATEGORY" Multiplicity="1" />
+          <End Role="tbl_LAYER" Type="Self.tbl_LAYER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_LAYER_CATEGORY">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tbl_LAYER">
+              <PropertyRef Name="categoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_LAYER_tbl_LAYER_TYPE">
+          <End Role="tbl_LAYER_TYPE" Type="Self.tbl_LAYER_TYPE" Multiplicity="1" />
+          <End Role="tbl_LAYER" Type="Self.tbl_LAYER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_LAYER_TYPE">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tbl_LAYER">
+              <PropertyRef Name="layerTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SOVELAVIDBModelStoreContainer">
+          <EntitySet Name="tbl_LAYER" EntityType="Self.tbl_LAYER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_LAYER_CATEGORY" EntityType="Self.tbl_LAYER_CATEGORY" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_LAYER_TYPE" EntityType="Self.tbl_LAYER_TYPE" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_tbl_LAYER_tbl_LAYER_CATEGORY" Association="Self.FK_tbl_LAYER_tbl_LAYER_CATEGORY">
+            <End Role="tbl_LAYER_CATEGORY" EntitySet="tbl_LAYER_CATEGORY" />
+            <End Role="tbl_LAYER" EntitySet="tbl_LAYER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_LAYER_tbl_LAYER_TYPE" Association="Self.FK_tbl_LAYER_tbl_LAYER_TYPE">
+            <End Role="tbl_LAYER_TYPE" EntitySet="tbl_LAYER_TYPE" />
+            <End Role="tbl_LAYER" EntitySet="tbl_LAYER" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="SOVELAVIDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="tbl_LAYER">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="fileName" Type="String" MaxLength="128" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="title" Type="String" MaxLength="128" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="512" FixedLength="false" Unicode="false" />
+          <Property Name="dateAdded" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="categoryId" Type="Int32" Nullable="false" />
+          <Property Name="layerTypeId" Type="Int32" Nullable="false" />
+          <Property Name="validFrom" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="validTo" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="imageName" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tbl_LAYER_CATEGORY" Relationship="Self.FK_tbl_LAYER_tbl_LAYER_CATEGORY" FromRole="tbl_LAYER" ToRole="tbl_LAYER_CATEGORY" />
+          <NavigationProperty Name="tbl_LAYER_TYPE" Relationship="Self.FK_tbl_LAYER_tbl_LAYER_TYPE" FromRole="tbl_LAYER" ToRole="tbl_LAYER_TYPE" />
+        </EntityType>
+        <EntityType Name="tbl_LAYER_CATEGORY">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="75" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="tbl_LAYER" Relationship="Self.FK_tbl_LAYER_tbl_LAYER_CATEGORY" FromRole="tbl_LAYER_CATEGORY" ToRole="tbl_LAYER" />
+        </EntityType>
+        <EntityType Name="tbl_LAYER_TYPE">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="tbl_LAYER" Relationship="Self.FK_tbl_LAYER_tbl_LAYER_TYPE" FromRole="tbl_LAYER_TYPE" ToRole="tbl_LAYER" />
+        </EntityType>
+        <Association Name="FK_tbl_LAYER_tbl_LAYER_CATEGORY">
+          <End Role="tbl_LAYER_CATEGORY" Type="Self.tbl_LAYER_CATEGORY" Multiplicity="1" />
+          <End Role="tbl_LAYER" Type="Self.tbl_LAYER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_LAYER_CATEGORY">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tbl_LAYER">
+              <PropertyRef Name="categoryId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_LAYER_tbl_LAYER_TYPE">
+          <End Role="tbl_LAYER_TYPE" Type="Self.tbl_LAYER_TYPE" Multiplicity="1" />
+          <End Role="tbl_LAYER" Type="Self.tbl_LAYER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_LAYER_TYPE">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tbl_LAYER">
+              <PropertyRef Name="layerTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="SOVELAVIDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tbl_LAYER" EntityType="Self.tbl_LAYER" />
+          <EntitySet Name="tbl_LAYER_CATEGORY" EntityType="Self.tbl_LAYER_CATEGORY" />
+          <EntitySet Name="tbl_LAYER_TYPE" EntityType="Self.tbl_LAYER_TYPE" />
+          <AssociationSet Name="FK_tbl_LAYER_tbl_LAYER_CATEGORY" Association="Self.FK_tbl_LAYER_tbl_LAYER_CATEGORY">
+            <End Role="tbl_LAYER_CATEGORY" EntitySet="tbl_LAYER_CATEGORY" />
+            <End Role="tbl_LAYER" EntitySet="tbl_LAYER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_LAYER_tbl_LAYER_TYPE" Association="Self.FK_tbl_LAYER_tbl_LAYER_TYPE">
+            <End Role="tbl_LAYER_TYPE" EntitySet="tbl_LAYER_TYPE" />
+            <End Role="tbl_LAYER" EntitySet="tbl_LAYER" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="SOVELAVIDBModelStoreContainer" CdmEntityContainer="SOVELAVIDBEntities">
+          <EntitySetMapping Name="tbl_LAYER">
+            <EntityTypeMapping TypeName="SOVELAVIDBModel.tbl_LAYER">
+              <MappingFragment StoreEntitySet="tbl_LAYER">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="fileName" ColumnName="fileName" />
+                <ScalarProperty Name="title" ColumnName="title" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="dateAdded" ColumnName="dateAdded" />
+                <ScalarProperty Name="categoryId" ColumnName="categoryId" />
+                <ScalarProperty Name="layerTypeId" ColumnName="layerTypeId" />
+                <ScalarProperty Name="validFrom" ColumnName="validFrom" />
+                <ScalarProperty Name="validTo" ColumnName="validTo" />
+                <ScalarProperty Name="imageName" ColumnName="imageName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_LAYER_CATEGORY">
+            <EntityTypeMapping TypeName="SOVELAVIDBModel.tbl_LAYER_CATEGORY">
+              <MappingFragment StoreEntitySet="tbl_LAYER_CATEGORY">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_LAYER_TYPE">
+            <EntityTypeMapping TypeName="SOVELAVIDBModel.tbl_LAYER_TYPE">
+              <MappingFragment StoreEntitySet="tbl_LAYER_TYPE">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,78 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="~/scripts/jquery-1.10.2.js"></script>
+<script src="~/scripts/jquery.unobtrusive-ajax.js"></script>
+<script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOIYM&sensor=false"></script>
+<h2>Index</h2>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var gmarkers = [];
+        var map;
+
+        function initialize() {
+
+            var mapProp = {
+                center: new google.maps.LatLng(18.997098, -73.635209), //India Lat and Lon
+                zoom: 9,
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            };
+            map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+
+            var myLatLng = { lat: 18.529969, lng: -72.2960001 };
+            var myLatLng2 = { lat: 18.5766908, lng: -72.2798405 };
+            var marker = new google.maps.Marker({
+                position: myLatLng,
+                title: 'Hello World!'
+            });
+            var marker2 = new google.maps.Marker({
+                position: myLatLng2,
+                title: 'Hello World!'
+            });
+
+
+
+            marker.setMap(map);
+            marker2.setMap(map);
+
+
+            var contentString = '<div id="content">' +
+      '<div id="siteNotice">' +
+      '</div>' +
+      '<h1 id="firstHeading" class="firstHeading">Glissement de terrain</h1>' +
+      '</div>' +
+      '</div>';
+            var contentString2 = '<div id="content">' +
+     '<div id="siteNotice">' +
+     '</div>' +
+     '<h1 id="firstHeading" class="firstHeading">Inondation</h1>' +
+     '</div>' +
+     '</div>';
+
+            var infowindow = new google.maps.InfoWindow({
+                content: contentString
+            });
+            marker.addListener('click', function () {
+                infowindow.open(map, marker);
+            });
+
+            var infowindow2 = new google.maps.InfoWindow({
+                content: contentString2
+            });
+            marker2.addListener('click', function () {
+                infowindow2.open(map, marker2);
+            });
+        }
+
+        google.maps.event.addDomListener(window, 'load', initialize);
+
+
+
+
+    });
+</script>
+
+<div id="googleMap" style="width:auto;height:800px;"></div>

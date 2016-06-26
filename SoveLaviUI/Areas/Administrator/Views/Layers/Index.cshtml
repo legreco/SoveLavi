@@ -1,0 +1,91 @@
+﻿@model IEnumerable<BOL.tbl_LAYER>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="content-header">
+    <h1>
+        Liste des Layers
+    </h1>
+</section>
+
+@*<p>
+    @Html.ActionLink("Create New", "Create")
+</p>*@
+<section class="content">
+
+
+    <div class="row">
+        <div class="col-xs-8">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Liste</h3>
+
+                    <div class="box-tools">
+                        <div class="input-group input-group-sm" style="width: 150px;">
+                            <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
+
+                            <div class="input-group-btn">
+                                <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body table-responsive no-padding">
+                    <table class="table table-hover">
+                        <tr>
+                           
+                            <th>
+                                @Html.DisplayNameFor(model => model.title)
+                            </th>
+                           
+                            <th>
+                                @Html.DisplayNameFor(model => model.dateAdded)
+                            </th>
+                           
+                            
+                            <th>
+                                @Html.DisplayNameFor(model => model.tbl_LAYER_CATEGORY.name)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.tbl_LAYER_TYPE.name)
+                            </th>
+                            <th></th>
+                        </tr>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                               
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.title)
+                                </td>
+                                
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.dateAdded)
+                                </td>
+                               
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.tbl_LAYER_CATEGORY.name)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.tbl_LAYER_TYPE.name)
+                                </td>
+                                <td>
+                                    @Html.ActionLink("Edit", "Edit", new { id = item.id }) |
+                                    @Html.ActionLink("Details", "Details", new { id = item.id }) |
+                                    @Html.ActionLink("Delete", "Delete", new { id = item.id })
+                                </td>
+                            </tr>
+                        }
+
+                    </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+</section>
