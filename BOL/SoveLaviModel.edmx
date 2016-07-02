@@ -5,6 +5,40 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
       <Schema Namespace="SOVELAVIDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="tbl_DONNEE">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="info" Type="varchar" MaxLength="1024" Nullable="false" />
+          <Property Name="createdDate" Type="datetime" Nullable="false" />
+          <Property Name="createdBy" Type="int" Nullable="false" />
+          <Property Name="fiabiliteSource" Type="int" Nullable="false" />
+          <Property Name="titre" Type="varchar" MaxLength="75" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_EVENEMENT">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="priorite" Type="int" Nullable="false" />
+          <Property Name="nom" Type="varchar" MaxLength="128" Nullable="false" />
+          <Property Name="startDate" Type="datetime" Nullable="false" />
+          <Property Name="endDate" Type="datetime" />
+          <Property Name="lattitude" Type="float" Nullable="false" />
+          <Property Name="longittude" Type="float" Nullable="false" />
+          <Property Name="menace" Type="int" Nullable="false" />
+          <Property Name="type" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_FIABILITE_SOURCE">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nom" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="description" Type="varchar" MaxLength="128" />
+          <Property Name="levelNumber" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="tbl_LAYER">
           <Key>
             <PropertyRef Name="id" />
@@ -34,6 +68,106 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <EntityType Name="tbl_MENACE">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nom" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="typeMenaceId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_POI">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nom" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="poiType" Type="int" Nullable="false" />
+          <Property Name="addresse" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="communeId" Type="int" Nullable="false" />
+          <Property Name="isVulnerable" Type="bit" Nullable="false" />
+          <Property Name="lattitude" Type="float" Nullable="false" />
+          <Property Name="longitude" Type="float" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_POI_TYPE">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nom" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="description" Type="varchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="tbl_PRIORITE_EVENEMENT">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nom" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="priorityNumber" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tbl_TYPE_EVENEMENT">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nom" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="description" Type="varchar" MaxLength="128" />
+        </EntityType>
+        <EntityType Name="tbl_TYPE_MENACE">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nom" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_tbl_DONNEE_tbl_FIABILITE_SOURCE">
+          <End Role="tbl_FIABILITE_SOURCE" Type="Self.tbl_FIABILITE_SOURCE" Multiplicity="1" />
+          <End Role="tbl_DONNEE" Type="Self.tbl_DONNEE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_FIABILITE_SOURCE">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tbl_DONNEE">
+              <PropertyRef Name="fiabiliteSource" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_EVENEMENT_tbl_MENACE">
+          <End Role="tbl_MENACE" Type="Self.tbl_MENACE" Multiplicity="1" />
+          <End Role="tbl_EVENEMENT" Type="Self.tbl_EVENEMENT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_MENACE">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tbl_EVENEMENT">
+              <PropertyRef Name="menace" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_EVENEMENT_tbl_PRIORITE_EVENEMENT">
+          <End Role="tbl_PRIORITE_EVENEMENT" Type="Self.tbl_PRIORITE_EVENEMENT" Multiplicity="1" />
+          <End Role="tbl_EVENEMENT" Type="Self.tbl_EVENEMENT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_PRIORITE_EVENEMENT">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tbl_EVENEMENT">
+              <PropertyRef Name="priorite" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_EVENEMENT_tbl_TYPE_EVENEMENT">
+          <End Role="tbl_TYPE_EVENEMENT" Type="Self.tbl_TYPE_EVENEMENT" Multiplicity="1" />
+          <End Role="tbl_EVENEMENT" Type="Self.tbl_EVENEMENT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_TYPE_EVENEMENT">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tbl_EVENEMENT">
+              <PropertyRef Name="type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tbl_LAYER_tbl_LAYER_CATEGORY">
           <End Role="tbl_LAYER_CATEGORY" Type="Self.tbl_LAYER_CATEGORY" Multiplicity="1" />
           <End Role="tbl_LAYER" Type="Self.tbl_LAYER" Multiplicity="*" />
@@ -58,10 +192,59 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tbl_MENACE_tbl_TYPE_MENACE">
+          <End Role="tbl_TYPE_MENACE" Type="Self.tbl_TYPE_MENACE" Multiplicity="1" />
+          <End Role="tbl_MENACE" Type="Self.tbl_MENACE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_TYPE_MENACE">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tbl_MENACE">
+              <PropertyRef Name="typeMenaceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_POI_tbl_POI_TYPE">
+          <End Role="tbl_POI_TYPE" Type="Self.tbl_POI_TYPE" Multiplicity="1" />
+          <End Role="tbl_POI" Type="Self.tbl_POI" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_POI_TYPE">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tbl_POI">
+              <PropertyRef Name="poiType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="SOVELAVIDBModelStoreContainer">
+          <EntitySet Name="tbl_DONNEE" EntityType="Self.tbl_DONNEE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_EVENEMENT" EntityType="Self.tbl_EVENEMENT" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_FIABILITE_SOURCE" EntityType="Self.tbl_FIABILITE_SOURCE" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_LAYER" EntityType="Self.tbl_LAYER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_LAYER_CATEGORY" EntityType="Self.tbl_LAYER_CATEGORY" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="tbl_LAYER_TYPE" EntityType="Self.tbl_LAYER_TYPE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_MENACE" EntityType="Self.tbl_MENACE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_POI" EntityType="Self.tbl_POI" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_POI_TYPE" EntityType="Self.tbl_POI_TYPE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_PRIORITE_EVENEMENT" EntityType="Self.tbl_PRIORITE_EVENEMENT" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_TYPE_EVENEMENT" EntityType="Self.tbl_TYPE_EVENEMENT" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="tbl_TYPE_MENACE" EntityType="Self.tbl_TYPE_MENACE" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_tbl_DONNEE_tbl_FIABILITE_SOURCE" Association="Self.FK_tbl_DONNEE_tbl_FIABILITE_SOURCE">
+            <End Role="tbl_FIABILITE_SOURCE" EntitySet="tbl_FIABILITE_SOURCE" />
+            <End Role="tbl_DONNEE" EntitySet="tbl_DONNEE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_EVENEMENT_tbl_MENACE" Association="Self.FK_tbl_EVENEMENT_tbl_MENACE">
+            <End Role="tbl_MENACE" EntitySet="tbl_MENACE" />
+            <End Role="tbl_EVENEMENT" EntitySet="tbl_EVENEMENT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_EVENEMENT_tbl_PRIORITE_EVENEMENT" Association="Self.FK_tbl_EVENEMENT_tbl_PRIORITE_EVENEMENT">
+            <End Role="tbl_PRIORITE_EVENEMENT" EntitySet="tbl_PRIORITE_EVENEMENT" />
+            <End Role="tbl_EVENEMENT" EntitySet="tbl_EVENEMENT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_EVENEMENT_tbl_TYPE_EVENEMENT" Association="Self.FK_tbl_EVENEMENT_tbl_TYPE_EVENEMENT">
+            <End Role="tbl_TYPE_EVENEMENT" EntitySet="tbl_TYPE_EVENEMENT" />
+            <End Role="tbl_EVENEMENT" EntitySet="tbl_EVENEMENT" />
+          </AssociationSet>
           <AssociationSet Name="FK_tbl_LAYER_tbl_LAYER_CATEGORY" Association="Self.FK_tbl_LAYER_tbl_LAYER_CATEGORY">
             <End Role="tbl_LAYER_CATEGORY" EntitySet="tbl_LAYER_CATEGORY" />
             <End Role="tbl_LAYER" EntitySet="tbl_LAYER" />
@@ -70,12 +253,59 @@
             <End Role="tbl_LAYER_TYPE" EntitySet="tbl_LAYER_TYPE" />
             <End Role="tbl_LAYER" EntitySet="tbl_LAYER" />
           </AssociationSet>
+          <AssociationSet Name="FK_tbl_MENACE_tbl_TYPE_MENACE" Association="Self.FK_tbl_MENACE_tbl_TYPE_MENACE">
+            <End Role="tbl_TYPE_MENACE" EntitySet="tbl_TYPE_MENACE" />
+            <End Role="tbl_MENACE" EntitySet="tbl_MENACE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_POI_tbl_POI_TYPE" Association="Self.FK_tbl_POI_tbl_POI_TYPE">
+            <End Role="tbl_POI_TYPE" EntitySet="tbl_POI_TYPE" />
+            <End Role="tbl_POI" EntitySet="tbl_POI" />
+          </AssociationSet>
         </EntityContainer>
       </Schema>
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="SOVELAVIDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="tbl_DONNEE">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="info" Type="String" MaxLength="1024" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="createdDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="createdBy" Type="Int32" Nullable="false" />
+          <Property Name="fiabiliteSource" Type="Int32" Nullable="false" />
+          <Property Name="titre" Type="String" MaxLength="75" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="tbl_FIABILITE_SOURCE" Relationship="Self.FK_tbl_DONNEE_tbl_FIABILITE_SOURCE" FromRole="tbl_DONNEE" ToRole="tbl_FIABILITE_SOURCE" />
+        </EntityType>
+        <EntityType Name="tbl_EVENEMENT">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="priorite" Type="Int32" Nullable="false" />
+          <Property Name="nom" Type="String" MaxLength="128" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="startDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="endDate" Type="DateTime" Precision="3" />
+          <Property Name="lattitude" Type="Double" Nullable="false" />
+          <Property Name="longittude" Type="Double" Nullable="false" />
+          <Property Name="menace" Type="Int32" Nullable="false" />
+          <Property Name="type" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tbl_MENACE" Relationship="Self.FK_tbl_EVENEMENT_tbl_MENACE" FromRole="tbl_EVENEMENT" ToRole="tbl_MENACE" />
+          <NavigationProperty Name="tbl_PRIORITE_EVENEMENT" Relationship="Self.FK_tbl_EVENEMENT_tbl_PRIORITE_EVENEMENT" FromRole="tbl_EVENEMENT" ToRole="tbl_PRIORITE_EVENEMENT" />
+          <NavigationProperty Name="tbl_TYPE_EVENEMENT" Relationship="Self.FK_tbl_EVENEMENT_tbl_TYPE_EVENEMENT" FromRole="tbl_EVENEMENT" ToRole="tbl_TYPE_EVENEMENT" />
+        </EntityType>
+        <EntityType Name="tbl_FIABILITE_SOURCE">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nom" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <Property Name="levelNumber" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tbl_DONNEE" Relationship="Self.FK_tbl_DONNEE_tbl_FIABILITE_SOURCE" FromRole="tbl_FIABILITE_SOURCE" ToRole="tbl_DONNEE" />
+        </EntityType>
         <EntityType Name="tbl_LAYER">
           <Key>
             <PropertyRef Name="id" />
@@ -109,6 +339,113 @@
           <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="tbl_LAYER" Relationship="Self.FK_tbl_LAYER_tbl_LAYER_TYPE" FromRole="tbl_LAYER_TYPE" ToRole="tbl_LAYER" />
         </EntityType>
+        <EntityType Name="tbl_MENACE">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nom" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="typeMenaceId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tbl_EVENEMENT" Relationship="Self.FK_tbl_EVENEMENT_tbl_MENACE" FromRole="tbl_MENACE" ToRole="tbl_EVENEMENT" />
+          <NavigationProperty Name="tbl_TYPE_MENACE" Relationship="Self.FK_tbl_MENACE_tbl_TYPE_MENACE" FromRole="tbl_MENACE" ToRole="tbl_TYPE_MENACE" />
+        </EntityType>
+        <EntityType Name="tbl_POI">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nom" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="poiType" Type="Int32" Nullable="false" />
+          <Property Name="addresse" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="communeId" Type="Int32" Nullable="false" />
+          <Property Name="isVulnerable" Type="Boolean" Nullable="false" />
+          <Property Name="lattitude" Type="Double" Nullable="false" />
+          <Property Name="longitude" Type="Double" Nullable="false" />
+          <NavigationProperty Name="tbl_POI_TYPE" Relationship="Self.FK_tbl_POI_tbl_POI_TYPE" FromRole="tbl_POI" ToRole="tbl_POI_TYPE" />
+        </EntityType>
+        <EntityType Name="tbl_POI_TYPE">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nom" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tbl_POI" Relationship="Self.FK_tbl_POI_tbl_POI_TYPE" FromRole="tbl_POI_TYPE" ToRole="tbl_POI" />
+        </EntityType>
+        <EntityType Name="tbl_PRIORITE_EVENEMENT">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nom" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="priorityNumber" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="tbl_EVENEMENT" Relationship="Self.FK_tbl_EVENEMENT_tbl_PRIORITE_EVENEMENT" FromRole="tbl_PRIORITE_EVENEMENT" ToRole="tbl_EVENEMENT" />
+        </EntityType>
+        <EntityType Name="tbl_TYPE_EVENEMENT">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nom" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="description" Type="String" MaxLength="128" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tbl_EVENEMENT" Relationship="Self.FK_tbl_EVENEMENT_tbl_TYPE_EVENEMENT" FromRole="tbl_TYPE_EVENEMENT" ToRole="tbl_EVENEMENT" />
+        </EntityType>
+        <EntityType Name="tbl_TYPE_MENACE">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nom" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="tbl_MENACE" Relationship="Self.FK_tbl_MENACE_tbl_TYPE_MENACE" FromRole="tbl_TYPE_MENACE" ToRole="tbl_MENACE" />
+        </EntityType>
+        <Association Name="FK_tbl_DONNEE_tbl_FIABILITE_SOURCE">
+          <End Role="tbl_FIABILITE_SOURCE" Type="Self.tbl_FIABILITE_SOURCE" Multiplicity="1" />
+          <End Role="tbl_DONNEE" Type="Self.tbl_DONNEE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_FIABILITE_SOURCE">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tbl_DONNEE">
+              <PropertyRef Name="fiabiliteSource" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_EVENEMENT_tbl_MENACE">
+          <End Role="tbl_MENACE" Type="Self.tbl_MENACE" Multiplicity="1" />
+          <End Role="tbl_EVENEMENT" Type="Self.tbl_EVENEMENT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_MENACE">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tbl_EVENEMENT">
+              <PropertyRef Name="menace" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_EVENEMENT_tbl_PRIORITE_EVENEMENT">
+          <End Role="tbl_PRIORITE_EVENEMENT" Type="Self.tbl_PRIORITE_EVENEMENT" Multiplicity="1" />
+          <End Role="tbl_EVENEMENT" Type="Self.tbl_EVENEMENT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_PRIORITE_EVENEMENT">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tbl_EVENEMENT">
+              <PropertyRef Name="priorite" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_EVENEMENT_tbl_TYPE_EVENEMENT">
+          <End Role="tbl_TYPE_EVENEMENT" Type="Self.tbl_TYPE_EVENEMENT" Multiplicity="1" />
+          <End Role="tbl_EVENEMENT" Type="Self.tbl_EVENEMENT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_TYPE_EVENEMENT">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tbl_EVENEMENT">
+              <PropertyRef Name="type" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_tbl_LAYER_tbl_LAYER_CATEGORY">
           <End Role="tbl_LAYER_CATEGORY" Type="Self.tbl_LAYER_CATEGORY" Multiplicity="1" />
           <End Role="tbl_LAYER" Type="Self.tbl_LAYER" Multiplicity="*" />
@@ -133,10 +470,59 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_tbl_MENACE_tbl_TYPE_MENACE">
+          <End Role="tbl_TYPE_MENACE" Type="Self.tbl_TYPE_MENACE" Multiplicity="1" />
+          <End Role="tbl_MENACE" Type="Self.tbl_MENACE" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_TYPE_MENACE">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tbl_MENACE">
+              <PropertyRef Name="typeMenaceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_tbl_POI_tbl_POI_TYPE">
+          <End Role="tbl_POI_TYPE" Type="Self.tbl_POI_TYPE" Multiplicity="1" />
+          <End Role="tbl_POI" Type="Self.tbl_POI" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="tbl_POI_TYPE">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tbl_POI">
+              <PropertyRef Name="poiType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="SOVELAVIDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="tbl_DONNEE" EntityType="Self.tbl_DONNEE" />
+          <EntitySet Name="tbl_EVENEMENT" EntityType="Self.tbl_EVENEMENT" />
+          <EntitySet Name="tbl_FIABILITE_SOURCE" EntityType="Self.tbl_FIABILITE_SOURCE" />
           <EntitySet Name="tbl_LAYER" EntityType="Self.tbl_LAYER" />
           <EntitySet Name="tbl_LAYER_CATEGORY" EntityType="Self.tbl_LAYER_CATEGORY" />
           <EntitySet Name="tbl_LAYER_TYPE" EntityType="Self.tbl_LAYER_TYPE" />
+          <EntitySet Name="tbl_MENACE" EntityType="Self.tbl_MENACE" />
+          <EntitySet Name="tbl_POI" EntityType="Self.tbl_POI" />
+          <EntitySet Name="tbl_POI_TYPE" EntityType="Self.tbl_POI_TYPE" />
+          <EntitySet Name="tbl_PRIORITE_EVENEMENT" EntityType="Self.tbl_PRIORITE_EVENEMENT" />
+          <EntitySet Name="tbl_TYPE_EVENEMENT" EntityType="Self.tbl_TYPE_EVENEMENT" />
+          <EntitySet Name="tbl_TYPE_MENACE" EntityType="Self.tbl_TYPE_MENACE" />
+          <AssociationSet Name="FK_tbl_DONNEE_tbl_FIABILITE_SOURCE" Association="Self.FK_tbl_DONNEE_tbl_FIABILITE_SOURCE">
+            <End Role="tbl_FIABILITE_SOURCE" EntitySet="tbl_FIABILITE_SOURCE" />
+            <End Role="tbl_DONNEE" EntitySet="tbl_DONNEE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_EVENEMENT_tbl_MENACE" Association="Self.FK_tbl_EVENEMENT_tbl_MENACE">
+            <End Role="tbl_MENACE" EntitySet="tbl_MENACE" />
+            <End Role="tbl_EVENEMENT" EntitySet="tbl_EVENEMENT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_EVENEMENT_tbl_PRIORITE_EVENEMENT" Association="Self.FK_tbl_EVENEMENT_tbl_PRIORITE_EVENEMENT">
+            <End Role="tbl_PRIORITE_EVENEMENT" EntitySet="tbl_PRIORITE_EVENEMENT" />
+            <End Role="tbl_EVENEMENT" EntitySet="tbl_EVENEMENT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_EVENEMENT_tbl_TYPE_EVENEMENT" Association="Self.FK_tbl_EVENEMENT_tbl_TYPE_EVENEMENT">
+            <End Role="tbl_TYPE_EVENEMENT" EntitySet="tbl_TYPE_EVENEMENT" />
+            <End Role="tbl_EVENEMENT" EntitySet="tbl_EVENEMENT" />
+          </AssociationSet>
           <AssociationSet Name="FK_tbl_LAYER_tbl_LAYER_CATEGORY" Association="Self.FK_tbl_LAYER_tbl_LAYER_CATEGORY">
             <End Role="tbl_LAYER_CATEGORY" EntitySet="tbl_LAYER_CATEGORY" />
             <End Role="tbl_LAYER" EntitySet="tbl_LAYER" />
@@ -145,6 +531,14 @@
             <End Role="tbl_LAYER_TYPE" EntitySet="tbl_LAYER_TYPE" />
             <End Role="tbl_LAYER" EntitySet="tbl_LAYER" />
           </AssociationSet>
+          <AssociationSet Name="FK_tbl_MENACE_tbl_TYPE_MENACE" Association="Self.FK_tbl_MENACE_tbl_TYPE_MENACE">
+            <End Role="tbl_TYPE_MENACE" EntitySet="tbl_TYPE_MENACE" />
+            <End Role="tbl_MENACE" EntitySet="tbl_MENACE" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tbl_POI_tbl_POI_TYPE" Association="Self.FK_tbl_POI_tbl_POI_TYPE">
+            <End Role="tbl_POI_TYPE" EntitySet="tbl_POI_TYPE" />
+            <End Role="tbl_POI" EntitySet="tbl_POI" />
+          </AssociationSet>
         </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
@@ -152,6 +546,43 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="SOVELAVIDBModelStoreContainer" CdmEntityContainer="SOVELAVIDBEntities">
+          <EntitySetMapping Name="tbl_DONNEE">
+            <EntityTypeMapping TypeName="SOVELAVIDBModel.tbl_DONNEE">
+              <MappingFragment StoreEntitySet="tbl_DONNEE">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="info" ColumnName="info" />
+                <ScalarProperty Name="createdDate" ColumnName="createdDate" />
+                <ScalarProperty Name="createdBy" ColumnName="createdBy" />
+                <ScalarProperty Name="fiabiliteSource" ColumnName="fiabiliteSource" />
+                <ScalarProperty Name="titre" ColumnName="titre" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_EVENEMENT">
+            <EntityTypeMapping TypeName="SOVELAVIDBModel.tbl_EVENEMENT">
+              <MappingFragment StoreEntitySet="tbl_EVENEMENT">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="priorite" ColumnName="priorite" />
+                <ScalarProperty Name="nom" ColumnName="nom" />
+                <ScalarProperty Name="startDate" ColumnName="startDate" />
+                <ScalarProperty Name="endDate" ColumnName="endDate" />
+                <ScalarProperty Name="lattitude" ColumnName="lattitude" />
+                <ScalarProperty Name="longittude" ColumnName="longittude" />
+                <ScalarProperty Name="menace" ColumnName="menace" />
+                <ScalarProperty Name="type" ColumnName="type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_FIABILITE_SOURCE">
+            <EntityTypeMapping TypeName="SOVELAVIDBModel.tbl_FIABILITE_SOURCE">
+              <MappingFragment StoreEntitySet="tbl_FIABILITE_SOURCE">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nom" ColumnName="nom" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="levelNumber" ColumnName="levelNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="tbl_LAYER">
             <EntityTypeMapping TypeName="SOVELAVIDBModel.tbl_LAYER">
               <MappingFragment StoreEntitySet="tbl_LAYER">
@@ -181,6 +612,64 @@
               <MappingFragment StoreEntitySet="tbl_LAYER_TYPE">
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_MENACE">
+            <EntityTypeMapping TypeName="SOVELAVIDBModel.tbl_MENACE">
+              <MappingFragment StoreEntitySet="tbl_MENACE">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nom" ColumnName="nom" />
+                <ScalarProperty Name="typeMenaceId" ColumnName="typeMenaceId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_POI">
+            <EntityTypeMapping TypeName="SOVELAVIDBModel.tbl_POI">
+              <MappingFragment StoreEntitySet="tbl_POI">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nom" ColumnName="nom" />
+                <ScalarProperty Name="poiType" ColumnName="poiType" />
+                <ScalarProperty Name="addresse" ColumnName="addresse" />
+                <ScalarProperty Name="communeId" ColumnName="communeId" />
+                <ScalarProperty Name="isVulnerable" ColumnName="isVulnerable" />
+                <ScalarProperty Name="lattitude" ColumnName="lattitude" />
+                <ScalarProperty Name="longitude" ColumnName="longitude" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_POI_TYPE">
+            <EntityTypeMapping TypeName="SOVELAVIDBModel.tbl_POI_TYPE">
+              <MappingFragment StoreEntitySet="tbl_POI_TYPE">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nom" ColumnName="nom" />
+                <ScalarProperty Name="description" ColumnName="description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_PRIORITE_EVENEMENT">
+            <EntityTypeMapping TypeName="SOVELAVIDBModel.tbl_PRIORITE_EVENEMENT">
+              <MappingFragment StoreEntitySet="tbl_PRIORITE_EVENEMENT">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nom" ColumnName="nom" />
+                <ScalarProperty Name="priorityNumber" ColumnName="priorityNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_TYPE_EVENEMENT">
+            <EntityTypeMapping TypeName="SOVELAVIDBModel.tbl_TYPE_EVENEMENT">
+              <MappingFragment StoreEntitySet="tbl_TYPE_EVENEMENT">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nom" ColumnName="nom" />
+                <ScalarProperty Name="description" ColumnName="description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tbl_TYPE_MENACE">
+            <EntityTypeMapping TypeName="SOVELAVIDBModel.tbl_TYPE_MENACE">
+              <MappingFragment StoreEntitySet="tbl_TYPE_MENACE">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nom" ColumnName="nom" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

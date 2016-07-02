@@ -25,8 +25,17 @@ namespace BOL
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<tbl_DONNEE> tbl_DONNEE { get; set; }
+        public virtual DbSet<tbl_EVENEMENT> tbl_EVENEMENT { get; set; }
+        public virtual DbSet<tbl_FIABILITE_SOURCE> tbl_FIABILITE_SOURCE { get; set; }
         public virtual DbSet<tbl_LAYER> tbl_LAYER { get; set; }
         public virtual DbSet<tbl_LAYER_CATEGORY> tbl_LAYER_CATEGORY { get; set; }
         public virtual DbSet<tbl_LAYER_TYPE> tbl_LAYER_TYPE { get; set; }
+        public virtual DbSet<tbl_MENACE> tbl_MENACE { get; set; }
+        public virtual DbSet<tbl_POI> tbl_POI { get; set; }
+        public virtual DbSet<tbl_POI_TYPE> tbl_POI_TYPE { get; set; }
+        public virtual DbSet<tbl_PRIORITE_EVENEMENT> tbl_PRIORITE_EVENEMENT { get; set; }
+        public virtual DbSet<tbl_TYPE_EVENEMENT> tbl_TYPE_EVENEMENT { get; set; }
+        public virtual DbSet<tbl_TYPE_MENACE> tbl_TYPE_MENACE { get; set; }
     }
 }

@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="LayerValidation.cs" />
     <Compile Include="SoveLaviModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -67,6 +68,15 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>SoveLaviModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="tbl_DONNEE.cs">
+      <DependentUpon>SoveLaviModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_EVENEMENT.cs">
+      <DependentUpon>SoveLaviModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_FIABILITE_SOURCE.cs">
+      <DependentUpon>SoveLaviModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="tbl_LAYER.cs">
       <DependentUpon>SoveLaviModel.tt</DependentUpon>
     </Compile>
@@ -76,7 +86,24 @@
     <Compile Include="tbl_LAYER_TYPE.cs">
       <DependentUpon>SoveLaviModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="LayerValidation.cs" />
+    <Compile Include="tbl_MENACE.cs">
+      <DependentUpon>SoveLaviModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_POI.cs">
+      <DependentUpon>SoveLaviModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_POI_TYPE.cs">
+      <DependentUpon>SoveLaviModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_PRIORITE_EVENEMENT.cs">
+      <DependentUpon>SoveLaviModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_TYPE_EVENEMENT.cs">
+      <DependentUpon>SoveLaviModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="tbl_TYPE_MENACE.cs">
+      <DependentUpon>SoveLaviModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="View_Models\Login.cs" />
     <Compile Include="View_Models\Register.cs" />
   </ItemGroup>
@@ -95,6 +122,9 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Validation\" />
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="SoveLaviModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>SoveLaviModel.edmx</DependentUpon>
@@ -105,9 +135,6 @@
       <DependentUpon>SoveLaviModel.edmx</DependentUpon>
       <LastGenOutput>SoveLaviModel.cs</LastGenOutput>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Validation\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

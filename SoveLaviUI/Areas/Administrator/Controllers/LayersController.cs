@@ -21,6 +21,10 @@ namespace SoveLaviUI.Areas.Administrator.Controllers
             return View(tbl_LAYER.ToList());
         }
 
+    
+
+      
+
         // GET: Administrator/Layers/Details/5
         public ActionResult Details(int? id)
         {
@@ -28,8 +32,10 @@ namespace SoveLaviUI.Areas.Administrator.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+          
             tbl_LAYER tbl_LAYER = db.tbl_LAYER.Find(id);
-            ViewBag.GeoJsonUrl = System.IO.Path.Combine(Server.MapPath("~/Layers"), tbl_LAYER.fileName);
+            ViewBag.GeoJsonUrl = String.Format("http://localhost:89/Layers/{0}",tbl_LAYER.fileName);
+
             if (tbl_LAYER == null)
             {
                 return HttpNotFound();
