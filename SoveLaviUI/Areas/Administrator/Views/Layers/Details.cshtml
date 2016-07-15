@@ -43,30 +43,52 @@
                 cache: false,
                 success: function (data) {
                     map.data.addGeoJson(data);
-
-                    data.features.forEach(function (feat) {
-                        var geom = feat.geometry;
-                        var props = feat.properties;
-
-                        if (geom.type === 'MultiPolygon') {
-                            for (var i = 0; i < geom.coordinates.length; i++) {
-                                var polygon = {
-                                    'type': 'Polygon',
-                                    'coordinates': geom.coordinates[i],
-                                    'properties': props
-                                };
-
-                                console.log(JSON.stringify(polygon));
-                                google.maps.event.addListener(feat.geometry, "mouseover", function () {
-                                    this.setOptions({ fillColor: "#00FF00" });
-                                });
-
-                                google.maps.event.addListener(mfeat.geometry, "mouseout", function () {
-                                    this.setOptions({ fillColor: "#FF0000" });
-                                });
-                            }
-                        }
+                    map.data.setStyle(function (feature) {
+                        var color = 'gray';
+                        return ({
+                            fillColor: color,
+                            strokeColor: color,
+                            strokeWeight: 2
+                        });
                     });
+                    map.data.addListener('mouseover', function (event) {
+                        var color2 = 'blue';
+                        map.data.revertStyle();
+                        map.data.overrideStyle(event.feature, {
+                            fillColor: color2,
+                            strokeColor: color2,
+                            strokeWeight: 2
+                        });
+                    });
+
+                    map.data.addListener('mouseout', function (event) {
+                        map.data.revertStyle();
+                    });
+                  
+                    
+                    //data.features.forEach(function (feat) {
+                    //    var geom = feat.geometry;
+                    //    var props = feat.properties;
+
+                    //    if (geom.type === 'MultiPolygon') {
+                    //        for (var i = 0; i < geom.coordinates.length; i++) {
+                    //            var polygon = {
+                    //                'type': 'Polygon',
+                    //                'coordinates': geom.coordinates[i],
+                    //                'properties': props
+                    //            };
+
+                    //            console.log(JSON.stringify(feat.geometry));
+                    //            google.maps.event.addListener(feat.geometry, "mouseover", function () {
+                    //                this.setOptions({ fillColor: "#00FF00" });
+                    //            });
+
+                    //            google.maps.event.addListener(mfeat.geometry, "mouseout", function () {
+                    //                this.setOptions({ fillColor: "#FF0000" });
+                    //            });
+                    //        }
+                    //    }
+                    //});
 
                 },
                 error: function (xhr) {

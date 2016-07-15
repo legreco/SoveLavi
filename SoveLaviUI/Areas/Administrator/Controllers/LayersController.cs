@@ -34,7 +34,8 @@ namespace SoveLaviUI.Areas.Administrator.Controllers
             }
           
             tbl_LAYER tbl_LAYER = db.tbl_LAYER.Find(id);
-            ViewBag.GeoJsonUrl = String.Format("http://localhost:89/Layers/{0}",tbl_LAYER.fileName);
+            ViewBag.GeoJsonUrl = String.Format("http://Layers:8081/{0}",tbl_LAYER.fileName);
+         ;
 
             if (tbl_LAYER == null)
             {

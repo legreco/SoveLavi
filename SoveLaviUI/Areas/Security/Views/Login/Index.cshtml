@@ -1,0 +1,121 @@
+﻿@model BOL.View_Models.Login
+@{
+    ViewBag.Title = "Se connecter";
+
+}
+<script src="~/Scripts/jquery-2.2.3.js"></script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+
+<!DOCTYPE html>
+<html>
+
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.6 -->
+    <link href="~/Template/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link href="~/Template/dist/css/AdminLTE.min.css" rel="stylesheet" />
+    <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
+          page. However, you can choose any other skin. Make sure you
+          apply the skin class to the body tag so the changes take effect.
+    -->
+
+
+    <link href="~/Template/dist/css/skins/skin-blue.css" rel="stylesheet" />
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+
+<body class="hold-transition login-page">
+    @if (TempData["Msg"] != null)
+    {
+        <div class="alert alert-dismissible alert-danger">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            @TempData["Msg"].ToString()
+        </div>
+
+    }
+
+    <div class="login-box">
+        <div class="login-logo">
+            <a href="../../index2.html"><b>SoveLavi</b> Web</a>
+        </div>
+        <!-- /.login-logo -->
+        <div class="login-box-body">
+            <h4 class="login-box-msg"><strong>Connectez vous</strong></h4>
+
+            @*@using reCAPTCHA.MVC*@
+            @using (Html.BeginForm("SignIn", "Login", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="form-horizontal">
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
+
+                    <div class="form-group has-feedback">
+                        @Html.EditorFor(model => model.username, new { htmlAttributes = new { @class = "form-control", placeholder = "Email" } })
+                        @Html.ValidationMessageFor(model => model.username, "", new { @class = "text-danger" })
+                        <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                    </div>
+                    <div class="form-group has-feedback">
+                        @Html.EditorFor(model => model.password, new { htmlAttributes = new { @class = "form-control", placeholder = "Mot de passe", type = "password" } })
+                        @Html.ValidationMessageFor(model => model.password, "", new { @class = "text-danger" })
+                        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                    </div>
+
+                    @*<div class="row">
+                        <div class="col-xs-8">
+                            @Html.Recaptcha()
+                            @Html.ValidationMessage("ReCaptcha")
+                        </div>
+
+
+                    </div>*@
+                    <hr />
+
+                    <div class="row">
+                        <div class="col-xs-push-5">
+                            <button type="submit" class="btn btn-primary btn-block btn-flat">Se connecter</button>
+                        </div>
+
+                    </div>
+
+                </div>
+
+        <!-- /.social-auth-links -->
+
+
+            }
+            <a>@Html.ActionLink("Créer un compte", "Index", "Register", new { Area = "Security" }, null)</a>
+            <!-- /.login-box-body -->
+        </div>
+        <!-- /.login-box -->
+        <!-- jQuery 2.2.0 -->
+        <!-- Bootstrap 3.3.6 -->
+        <!-- iCheck -->
+        <script src="~/Template/plugins/iCheck/icheck.min.js"></script>
+        <script src="~/Template/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+        <script src="~/Template/bootstrap/js/bootstrap.min.js"></script>
+
+    </div>
+</body>
+
+</html>

@@ -217,6 +217,12 @@
     <Content Include="Areas\DataEntry\Views\PrioriteEvenements\Details.cshtml" />
     <Content Include="Areas\DataEntry\Views\PrioriteEvenements\Edit.cshtml" />
     <Content Include="Areas\DataEntry\Views\PrioriteEvenements\Index.cshtml" />
+    <Content Include="Areas\Administrator\Views\Pois\Create.cshtml" />
+    <Content Include="Areas\Administrator\Views\Pois\Delete.cshtml" />
+    <Content Include="Areas\Administrator\Views\Pois\Details.cshtml" />
+    <Content Include="Areas\Administrator\Views\Pois\Edit.cshtml" />
+    <Content Include="Areas\Administrator\Views\Pois\Index.cshtml" />
+    <Content Include="Areas\Security\Views\Login\Index.cshtml" />
     <None Include="scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="scripts\bootstrap.js" />
     <Content Include="scripts\bootstrap.min.js" />
@@ -241,6 +247,7 @@
     <Compile Include="Areas\Administrator\Controllers\LayersController.cs" />
     <Compile Include="Areas\Administrator\Controllers\LayersTypesController.cs" />
     <Compile Include="Areas\Administrator\Controllers\MapController.cs" />
+    <Compile Include="Areas\Administrator\Controllers\PoisController.cs" />
     <Compile Include="Areas\Common\CommonAreaRegistration.cs" />
     <Compile Include="Areas\Common\Controllers\HomeController.cs" />
     <Compile Include="Areas\DataEntry\Controllers\EvenementsController.cs" />
@@ -251,6 +258,9 @@
     <Compile Include="Areas\DataEntry\Controllers\TypeEvenementsController.cs" />
     <Compile Include="Areas\DataEntry\Controllers\TypeMenacesController.cs" />
     <Compile Include="Areas\DataEntry\DataEntryAreaRegistration.cs" />
+    <Compile Include="Areas\Security\Controllers\BaseSecurityController.cs" />
+    <Compile Include="Areas\Security\Controllers\LoginController.cs" />
+    <Compile Include="Areas\Security\Controllers\RegisterController.cs" />
     <Compile Include="Areas\Security\SecurityAreaRegistration.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -286,8 +296,9 @@
     <Folder Include="Areas\Common\Views\Shared\" />
     <Folder Include="Areas\DataEntry\Models\" />
     <Folder Include="Areas\DataEntry\Views\Shared\" />
-    <Folder Include="Areas\Security\Controllers\" />
     <Folder Include="Areas\Security\Models\" />
+    <Folder Include="Areas\Security\Views\BaseSecurity\" />
+    <Folder Include="Areas\Security\Views\Register\" />
     <Folder Include="Areas\Security\Views\Shared\" />
     <Folder Include="Controllers\" />
     <Folder Include="Layers\" />
